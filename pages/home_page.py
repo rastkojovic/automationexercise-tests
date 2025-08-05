@@ -18,5 +18,13 @@ class HomePage(BasePage):
         signup_login_link.click()
 
     def get_signup_form_title(self):
-        signup_form_title = self.driver.find_elements(By.CSS_SELECTOR, "#form h2")[2].text
+        signup_form_title = self.driver.find_element(By.CSS_SELECTOR, "#form .signup-form h2").text
         return signup_form_title
+    
+    def get_login_form_title(self):
+        login_form_title = self.driver.find_element(By.CSS_SELECTOR, "#form .login-form h2").text
+        return login_form_title
+    
+    def delete_account(self):
+        delete_account_element = self.driver.find_elements(By.CSS_SELECTOR, "ul.navbar-nav li")[4]
+        delete_account_element.click()

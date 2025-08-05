@@ -67,4 +67,3 @@ def test_register_user(driver):
 
     continue_button = driver.find_element(By.CSS_SELECTOR, test_data.CONTINUE_BTN_SELECTOR)
     continue_button.click()
-    # input()

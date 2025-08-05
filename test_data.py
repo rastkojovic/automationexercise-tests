@@ -1,7 +1,8 @@
-HOMEPAGE_H1_TEXT = "AutomationExercise"
-HOMEPAGE_URL = "http://automationexercise.com"
+# URLs
+HOMEPAGE_URL = "https://automationexercise.com/"
 LOGIN_PAGE_URL = "https://automationexercise.com/login"
-SIGNUP_FORM_TITLE = "New User Signup!"
+
+# USER DATA
 NAME = "John"
 LAST_NAME = "Doe"
 COMPANY = "Fake Inc."
@@ -20,9 +21,17 @@ DOB = {
 }
 PASSWORD = "!@#$%^&*"
 TITLE = "mrs"
+
+# SELECTORS
+ACC_CREATED_TITLE_SELECTOR = "h2[data-qa='account-created']"
+ACC_DELETED_TITLE_SELECTOR = "h2[data-qa='account-deleted']"
+CONTINUE_BTN_SELECTOR = "a[data-qa='continue-button']"
+
+# HEADING TEXT
+HOMEPAGE_H1_TEXT = "AutomationExercise"
+SIGNUP_FORM_TITLE = "New User Signup!"
+LOGIN_FORM_TITLE = "Login to your account"
 SIGNUP_PAGE_TITLE = "ENTER ACCOUNT INFORMATION"
 ACCOUNT_CREATED_TITLE = "ACCOUNT CREATED!"
 ACCOUNT_DELETED_TITLE = "ACCOUNT DELETED!"
-CONTINUE_BTN_SELECTOR = "a[data-qa='continue-button']"
-ACC_CREATED_TITLE_SELECTOR = "h2[data-qa='account-created']"
-ACC_DELETED_TITLE_SELECTOR = "h2[data-qa='account-deleted']"
+
