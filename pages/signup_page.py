@@ -1,11 +1,12 @@
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.select import Select
 from pages.base_page import BasePage
-from test_data import LOGIN_PAGE_URL
+import test_data
 
 class SignupPage(BasePage):
 
-    URL = LOGIN_PAGE_URL
+    URL = f"{test_data.BASE_URL}{test_data.LOGIN_PAGE_PATH}"
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -21,6 +22,18 @@ class SignupPage(BasePage):
     def click_signup_button(self):
         signup_button = self.driver.find_element(By.CSS_SELECTOR, "form[action='/signup'] button[data-qa='signup-button']")
         signup_button.click()
+
+    # /login page - signup form
+    def get_form_title(self):
+        form_title = self.driver.find_element(By.CSS_SELECTOR, ".signup-form h2").text
+        return form_title
+    
+    def get_error_msg(self):
+        try:
+            error_msg = self.driver.find_element(By.CSS_SELECTOR, ".signup-form p").text
+            return error_msg
+        except NoSuchElementException:
+            return "Error message not found!"
 
     def select_title(self, title):
 

@@ -1,9 +1,16 @@
 # URLs
-HOMEPAGE_URL = "https://automationexercise.com/"
-LOGIN_PAGE_URL = "https://automationexercise.com/login"
+BASE_URL = "https://www.automationexercise.com"
+LOGIN_PAGE_PATH = "/login"
+SIGNUP_PAGE_PATH = "/signup"
+CONTACT_PAGE_PATH = "/contact_us"
+TEST_CASES_PAGE_PATH = "/test_cases"
+PRODUCTS_PAGE_PATH = "/products"
+PRODUCT_DETAILS_PAGE_PATH = "/product_details"
+DELETE_ACCOUNT_PAGE_PATH = "/delete_account"
+CART_PAGE_PATH = "/view_cart"
 
 # USER DATA
-NAME = "John"
+NAME = "Jane"
 LAST_NAME = "Doe"
 COMPANY = "Fake Inc."
 ADDRESS1 = "Fake address 1"
@@ -13,7 +20,7 @@ STATE = "Ontario"
 CITY = "Toronto"
 ZIP = "111111111"
 PHONE_NUM = "416000000000"
-EMAIL = "john.doe1234@email.com"
+EMAIL = "test_8825py@email.com"
 DOB = {
     "day": "1",
     "month": "January",
@@ -22,16 +29,41 @@ DOB = {
 PASSWORD = "!@#$%^&*"
 TITLE = "mrs"
 
-# SELECTORS
-ACC_CREATED_TITLE_SELECTOR = "h2[data-qa='account-created']"
-ACC_DELETED_TITLE_SELECTOR = "h2[data-qa='account-deleted']"
-CONTINUE_BTN_SELECTOR = "a[data-qa='continue-button']"
+# INVALID DATA
+INVALID_EMAIL = "invalid.email@email.xyz"
+INVALID_PASSWORD = "Qwerty1234"
+
+# CONTACT DATA
+CONTACT_SUBJECT = "Test message"
+CONTACT_MESSAGE = "This is a test message. \nAdding another sentence. \nBye."
+
+# PRODUCT 1 DETAILS
+PRODUCT1_NAME = "Blue Top"
+PRODUCT1_CATEGORY = "Women > Tops"
+PRODUCT1_PRICE = "Rs. 500"
+PRODUCT1_AVAILABILITY = "In Stock"
+PRODUCT1_CONDITION = "New"
+PRODUCT1_BRAND = "Polo"
+
+# PRODUCT 2 DETAILS
+PRODUCT2_NAME = "Men Tshirt"
+PRODUCT2_CATEGORY = "Men > Tshirts"
+PRODUCT2_PRICE = "Rs. 400"
+PRODUCT2_AVAILABILITY = "In Stock"
+PRODUCT2_CONDITION = "New"
+PRODUCT2_BRAND = "H&M"
 
 # HEADING TEXT
 HOMEPAGE_H1_TEXT = "AutomationExercise"
+LOGGED_IN_MSG = "Logged in as Jane"
 SIGNUP_FORM_TITLE = "New User Signup!"
 LOGIN_FORM_TITLE = "Login to your account"
 SIGNUP_PAGE_TITLE = "ENTER ACCOUNT INFORMATION"
 ACCOUNT_CREATED_TITLE = "ACCOUNT CREATED!"
 ACCOUNT_DELETED_TITLE = "ACCOUNT DELETED!"
-
+INVALID_CRED_MSG = "Your email or password is incorrect!"
+EXISTING_EMAIL_MSG = "Email Address already exist!"
+CONTACT_FORM_TITLE = "GET IN TOUCH"
+CONTACT_SUCCESS_MESSAGE = "Success! Your details have been submitted successfully."
+SEARCH_TITLE = "SEARCHED PRODUCTS"
+SUBSCRIPTION_SUCCESS_MESSAGE = "You have been successfully subscribed!"

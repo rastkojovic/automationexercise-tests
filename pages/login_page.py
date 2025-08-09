@@ -1,10 +1,10 @@
 from pages.base_page import BasePage
-from test_data import LOGIN_PAGE_URL
+import test_data
 from selenium.webdriver.common.by import By
 
 class LoginPage(BasePage):
 
-    URL = LOGIN_PAGE_URL
+    URL = f"{test_data.BASE_URL}{test_data.LOGIN_PAGE_PATH}"
 
     def __init__(self, driver):
         super().__init__(driver)
