@@ -39,16 +39,8 @@ class ProductPage(BasePage):
         return True
     
     def add_to_cart(self, product_index):
-        action = ActionChains(self.driver)
-        first_product = self.driver.find_elements(By.CSS_SELECTOR, ".features_items .single-products")[product_index]
-        action.move_to_element(first_product).perform()
-
-        product_overlay = first_product.find_element(By.CSS_SELECTOR, ".overlay-content")
-        WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located(product_overlay))
-
-        add_to_cart_button = product_overlay.find_element(By.LINK_TEXT, "Add to cart")
-        WebDriverWait(self.driver, 5).until(expected_conditions.element_to_be_clickable(add_to_cart_button))
-        
+        add_to_cart_btn_xpath = f"(//div[@class='single-products'])[{product_index + 1}]//div[contains(@class,'productinfo')]/a[contains(@class,'add-to-cart')]"
+        add_to_cart_button = self.driver.find_element(By.XPATH, add_to_cart_btn_xpath)
         add_to_cart_button.click()
 
     def dialogue_continue_shopping(self):

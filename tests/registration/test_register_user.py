@@ -66,14 +66,14 @@ def test_register_user(driver):
 
     assert logged_in_text == f"Logged in as {test_data.NAME}", f"Expected text: 'Logged in as {test_data.NAME}', actual text: '{logged_in_text}'"
 
-    # delete_account_link = navbar_items[4]
-    # delete_account_link.click()
+    delete_account_link = navbar_items[4]
+    delete_account_link.click()
 
-    # WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.DELETE_ACCOUNT_PAGE_PATH))
+    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.DELETE_ACCOUNT_PAGE_PATH))
 
-    # account_deleted_title = driver.find_element(By.CSS_SELECTOR, "h2[data-qa='account-deleted']").text
+    account_deleted_title = driver.find_element(By.CSS_SELECTOR, "h2[data-qa='account-deleted']").text
 
-    # assert account_deleted_title == test_data.ACCOUNT_DELETED_TITLE, f"Expected title: '{test_data.ACCOUNT_DELETED_TITLE}', actual title: '{account_deleted_title}'"
+    assert account_deleted_title == test_data.ACCOUNT_DELETED_TITLE, f"Expected title: '{test_data.ACCOUNT_DELETED_TITLE}', actual title: '{account_deleted_title}'"
 
-    # continue_button = driver.find_element(By.CSS_SELECTOR, "a[data-qa='continue-button']")
-    # continue_button.click()
+    continue_button = driver.find_element(By.CSS_SELECTOR, "a[data-qa='continue-button']")
+    continue_button.click()

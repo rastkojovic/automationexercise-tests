@@ -34,3 +34,9 @@ class CartPage(BasePage):
             cart_item = CartItem(item_name, item_price, item_quantity)
             cart_items.append(cart_item)
         return cart_items
+    
+    def click_checkout_button(self):
+        self.driver.find_element(By.CSS_SELECTOR, "a.check_out").click()
+
+    def click_register_login_link(self):
+        self.driver.find_element(By.CSS_SELECTOR, ".modal-body a[href='/login']").click()

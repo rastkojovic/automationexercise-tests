@@ -8,6 +8,7 @@ PRODUCTS_PAGE_PATH = "/products"
 PRODUCT_DETAILS_PAGE_PATH = "/product_details"
 DELETE_ACCOUNT_PAGE_PATH = "/delete_account"
 CART_PAGE_PATH = "/view_cart"
+PAYMENT_PAGE_PATH = "/payment"
 
 # USER DATA
 NAME = "Jane"
@@ -26,8 +27,12 @@ DOB = {
     "month": "January",
     "year": "1991"
 }
-PASSWORD = "!@#$%^&*"
+PASSWORD = "password"
 TITLE = "mrs"
+CARD_NUMBER = "0000000000000000"
+CVC = "111"
+EXPIRY_MONTH = "05"
+EXPIRY_YEAR = "2029"
 
 # INVALID DATA
 INVALID_EMAIL = "invalid.email@email.xyz"
@@ -67,3 +72,4 @@ CONTACT_FORM_TITLE = "GET IN TOUCH"
 CONTACT_SUCCESS_MESSAGE = "Success! Your details have been submitted successfully."
 SEARCH_TITLE = "SEARCHED PRODUCTS"
 SUBSCRIPTION_SUCCESS_MESSAGE = "You have been successfully subscribed!"
+ORDER_SUCCESS_MESSAGE = "Your order has been placed successfully!"
