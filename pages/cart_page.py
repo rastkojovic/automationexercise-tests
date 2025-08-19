@@ -35,8 +35,19 @@ class CartPage(BasePage):
             cart_items.append(cart_item)
         return cart_items
     
+    def item_in_cart(self, item_name):
+        cart_items = self.get_cart_items()
+        for item in cart_items:
+            if item.item_name == item_name:
+                return False
+        return True
+    
     def click_checkout_button(self):
         self.driver.find_element(By.CSS_SELECTOR, "a.check_out").click()
 
     def click_register_login_link(self):
         self.driver.find_element(By.CSS_SELECTOR, ".modal-body a[href='/login']").click()
+
+    def remove_from_cart(self, item_index):
+        item = self.driver.find_elements(By.CSS_SELECTOR, "tbody tr")[item_index]
+        item.find_element(By.CSS_SELECTOR, ".cart_quantity_delete").click()

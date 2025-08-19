@@ -10,10 +10,10 @@ def test_verify_subscription_cart(driver):
     home_page.open()
 
     current_url = driver.current_url
-    home_page_h1_text = home_page.get_h1_text()
+    homepage_title = home_page.get_title()
 
     assert test_data.BASE_URL in current_url, f"Expected URL to contain {test_data.BASE_URL}, but got {current_url}"
-    assert test_data.HOMEPAGE_H1_TEXT == home_page_h1_text, f"Expected H1 text: {test_data.HOMEPAGE_H1_TEXT}, actual H1 text: {home_page_h1_text}"
+    assert test_data.HOMEPAGE_TITLE == homepage_title, f"Expected H1 text: {test_data.HOMEPAGE_TITLE}, actual H1 text: {homepage_title}"
 
     home_page.click_cart()
 

@@ -12,9 +12,9 @@ def test_register_user(driver):
 
     WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.BASE_URL))
 
-    h1_element_text = home_page.get_h1_text()
+    homepage_title = home_page.get_title()
 
-    assert h1_element_text == test_data.HOMEPAGE_H1_TEXT, f"Expected H1 text '{test_data.HOMEPAGE_H1_TEXT}', actual H1 text {h1_element_text}"
+    assert homepage_title == test_data.HOMEPAGE_TITLE, f"Expected H1 text '{test_data.HOMEPAGE_TITLE}', actual H1 text {homepage_title}"
 
     home_page.click_signup_login()
 

@@ -52,3 +52,11 @@ class ProductPage(BasePage):
         modal_content = self.driver.find_element(By.CSS_SELECTOR, ".modal-content")
         view_cart_link = modal_content.find_element(By.LINK_TEXT, "View Cart")
         view_cart_link.click()
+
+    def get_brand_names(self):
+        brand_name_elements = self.driver.find_elements(By.CSS_SELECTOR, ".brands-name a")
+        brand_names = [name.text.split("\n")[1] for name in brand_name_elements]
+        return brand_names
+    
+    def select_brand(self, brand_name):
+        self.driver.find_element(By.CSS_SELECTOR, f".brands-name a[href*='{brand_name}']").click()
