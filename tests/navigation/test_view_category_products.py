@@ -1,5 +1,4 @@
 from pages.home_page import HomePage
-from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 import test_data
@@ -10,7 +9,6 @@ def test_view_category_products(driver):
     home_page.open()
 
     wait = WebDriverWait(driver, 5)
-    wait.until(expected_conditions.url_contains(test_data.BASE_URL))
 
     current_url = driver.current_url
     homepage_title = driver.find_element(By.TAG_NAME, "h1").text

@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions 
+from selenium.webdriver.support import expected_conditions as EC
 import test_data
 from pages.home_page import HomePage
 from pages.signup_page import SignupPage
@@ -10,15 +10,11 @@ def test_register_user(driver):
     home_page = HomePage(driver)
     home_page.open()
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.BASE_URL))
-
     homepage_title = home_page.get_title()
 
     assert homepage_title == test_data.HOMEPAGE_TITLE, f"Expected H1 text '{test_data.HOMEPAGE_TITLE}', actual H1 text {homepage_title}"
 
-    home_page.click_signup_login()
-
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.LOGIN_PAGE_PATH))
+    home_page.nav.click_signup_login()
 
     signup_form_title = home_page.get_signup_form_title()
     assert signup_form_title == test_data.SIGNUP_FORM_TITLE, f"Expected signup form title: '{test_data.SIGNUP_FORM_TITLE}', actual signup form title: '{signup_form_title}'"
@@ -28,7 +24,7 @@ def test_register_user(driver):
     signup_page.enter_email(test_data.EMAIL)
     signup_page.click_signup_button()
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.SIGNUP_PAGE_PATH))
+    WebDriverWait(driver, 5).until(EC.url_contains(test_data.SIGNUP_PAGE_PATH))
 
     signup_page_title = driver.find_element(By.CSS_SELECTOR, ".login-form h2.title").text
 
@@ -60,17 +56,10 @@ def test_register_user(driver):
     continue_button = driver.find_element(By.CSS_SELECTOR, "a[data-qa='continue-button']")
     continue_button.click()
 
-
-    navbar_items = driver.find_elements(By.CSS_SELECTOR, ".navbar-nav li")
-    logged_in_text = navbar_items[9].text.strip()
-
+    logged_in_text = signup_page.nav.get_loggedin_msg()
     assert logged_in_text == f"Logged in as {test_data.NAME}", f"Expected text: 'Logged in as {test_data.NAME}', actual text: '{logged_in_text}'"
 
-    delete_account_link = navbar_items[4]
-    delete_account_link.click()
-
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.DELETE_ACCOUNT_PAGE_PATH))
-
+    signup_page.nav.click_delete_account()
     account_deleted_title = driver.find_element(By.CSS_SELECTOR, "h2[data-qa='account-deleted']").text
 
     assert account_deleted_title == test_data.ACCOUNT_DELETED_TITLE, f"Expected title: '{test_data.ACCOUNT_DELETED_TITLE}', actual title: '{account_deleted_title}'"

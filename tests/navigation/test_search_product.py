@@ -1,5 +1,3 @@
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
 from pages.home_page import HomePage
 from pages.product_page import ProductPage
 import test_data
@@ -11,17 +9,13 @@ def test_search_product(driver):
     home_page = HomePage(driver)
     home_page.open()
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.BASE_URL))
-
     current_url = driver.current_url
     homepage_title = home_page.get_title()
 
     assert test_data.BASE_URL in current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{current_url}'"
     assert homepage_title == test_data.HOMEPAGE_TITLE, f"Expected H1 text: {test_data.HOMEPAGE_TITLE}, actual H1 text: {homepage_title}"
 
-    home_page.click_products()
-
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.PRODUCTS_PAGE_PATH))
+    home_page.nav.click_products()
 
     product_page = ProductPage(driver)
     product_name = "dress"

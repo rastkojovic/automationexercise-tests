@@ -1,4 +1,4 @@
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from pages.home_page import HomePage
@@ -14,8 +14,6 @@ def test_register_while_checkout(driver):
     home_page = HomePage(driver)
     home_page.open()
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.BASE_URL))
-
     current_url = driver.current_url
     assert test_data.BASE_URL in current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: {current_url}"
 
@@ -27,9 +25,7 @@ def test_register_while_checkout(driver):
     product_page.dialogue_continue_shopping()
     product_page.add_to_cart(6)
     product_page.dialogue_continue_shopping()
-    home_page.click_cart()
-
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.CART_PAGE_PATH))
+    home_page.nav.click_cart()
 
     current_url = driver.current_url
     assert test_data.CART_PAGE_PATH in current_url, f"Expected page: {test_data.CART_PAGE_PATH}, actual page: {current_url}"
@@ -37,10 +33,10 @@ def test_register_while_checkout(driver):
     cart_page = CartPage(driver)
     cart_page.click_checkout_button()
 
-    WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".modal-body a[href='/login']")))
+    WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".modal-body a[href='/login']")))
     cart_page.click_register_login_link()
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.LOGIN_PAGE_PATH))
+    WebDriverWait(driver, 5).until(EC.url_contains(test_data.LOGIN_PAGE_PATH))
 
     # REGISTER NEW USER
     signup_form_title = home_page.get_signup_form_title()
@@ -51,7 +47,7 @@ def test_register_while_checkout(driver):
     signup_page.enter_email(test_data.EMAIL)
     signup_page.click_signup_button()
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.SIGNUP_PAGE_PATH))
+    WebDriverWait(driver, 5).until(EC.url_contains(test_data.SIGNUP_PAGE_PATH))
 
     signup_page_title = driver.find_element(By.CSS_SELECTOR, ".login-form h2.title").text
 
@@ -79,20 +75,15 @@ def test_register_while_checkout(driver):
 
     assert account_created_title == test_data.ACCOUNT_CREATED_TITLE, f"Expected H2 title: '{test_data.ACCOUNT_CREATED_TITLE}', actual H2 title: '{account_created_title}'"
     
-
     continue_button = driver.find_element(By.CSS_SELECTOR, "a[data-qa='continue-button']")
     continue_button.click()
 
-
-    navbar_items = driver.find_elements(By.CSS_SELECTOR, ".navbar-nav li")
-    logged_in_text = navbar_items[9].text.strip()
+    logged_in_text = signup_page.nav.get_loggedin_msg()
 
     assert logged_in_text == f"Logged in as {test_data.NAME}", f"Expected text: 'Logged in as {test_data.NAME}', actual text: '{logged_in_text}'"
 
     # PROCEED WITH CHECKOUT
-    home_page.click_cart()
-
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.CART_PAGE_PATH))
+    home_page.nav.click_cart()
 
     current_url = driver.current_url
     assert test_data.CART_PAGE_PATH in current_url, f"Expected page: {test_data.CART_PAGE_PATH}, actual page: {current_url}"
@@ -118,7 +109,7 @@ def test_register_while_checkout(driver):
     checkout_page.enter_message("This is a comment on the order.")
     checkout_page.click_payment_btn()
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.PAYMENT_PAGE_PATH))
+    WebDriverWait(driver, 5).until(EC.url_contains(test_data.PAYMENT_PAGE_PATH))
 
     # ENTER PAYMENT INFO & CONFIRM PURCHASE
     payment_page = PaymentPage(driver)
@@ -139,13 +130,13 @@ def test_register_while_checkout(driver):
     
     payment_page.pay_and_confirm()
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains("payment_done"))
+    WebDriverWait(driver, 5).until(EC.url_contains("payment_done"))
 
     # Delete account
     delete_account_link = driver.find_element(By.CSS_SELECTOR, "a[href='/delete_account']")
     delete_account_link.click()
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.DELETE_ACCOUNT_PAGE_PATH))
+    WebDriverWait(driver, 5).until(EC.url_contains(test_data.DELETE_ACCOUNT_PAGE_PATH))
 
     account_deleted_title = driver.find_element(By.CSS_SELECTOR, "h2[data-qa='account-deleted']").text
 

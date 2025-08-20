@@ -1,7 +1,5 @@
 import test_data
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
 from pages.home_page import HomePage
 from pages.signup_page import SignupPage
 
@@ -10,17 +8,13 @@ def test_register_existing_user(driver):
     home_page = HomePage(driver)
     home_page.open()
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.BASE_URL))
-
     current_url = driver.current_url
     homepage_title = driver.find_element(By.TAG_NAME, "h1").text
 
     assert test_data.BASE_URL in current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{current_url}'"
     assert homepage_title == test_data.HOMEPAGE_TITLE, f"Expected H1 text: '{test_data.HOMEPAGE_TITLE}', actual H1 text: '{homepage_title}'"
 
-    home_page.click_signup_login()
-
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.LOGIN_PAGE_PATH))
+    home_page.nav.click_signup_login()
 
     signup_page = SignupPage(driver)
     signup_form_title = signup_page.get_form_title()

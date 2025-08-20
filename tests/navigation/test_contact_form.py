@@ -1,5 +1,5 @@
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 import test_data
 from pages.home_page import HomePage
 from pages.contact_page import ContactPage
@@ -11,12 +11,11 @@ def test_contact_form(driver):
 
     current_url = driver.current_url
     homepage_title = home_page.get_title()
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.BASE_URL))
 
     assert test_data.BASE_URL in current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{current_url}'"
     assert homepage_title == test_data.HOMEPAGE_TITLE, f"Expected H1 text: '{test_data.HOMEPAGE_TITLE}', actual H1 text: {homepage_title}"
 
-    home_page.click_contact()
+    home_page.nav.click_contact()
     
     contact_page = ContactPage(driver)
     contact_form_title = contact_page.get_form_title()
@@ -33,7 +32,7 @@ def test_contact_form(driver):
     contact_page.upload_file("dummy_file.txt")
     contact_page.submit()
 
-    WebDriverWait(driver, 5).until(expected_conditions.alert_is_present())
+    WebDriverWait(driver, 5).until(EC.alert_is_present())
     alert = driver.switch_to.alert
     alert.accept()
 
@@ -42,7 +41,7 @@ def test_contact_form(driver):
 
     contact_page.click_home_button()
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.BASE_URL))
+    WebDriverWait(driver, 5).until(EC.url_contains(test_data.BASE_URL))
 
     current_url = driver.current_url
     assert test_data.BASE_URL in current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{current_url}'"

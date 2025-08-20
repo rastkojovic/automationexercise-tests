@@ -4,7 +4,7 @@ from pages.product_details_page import ProductDetailsPage
 import test_data
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 
 def test_open_products_page(driver):
 
@@ -14,14 +14,10 @@ def test_open_products_page(driver):
     current_url = driver.current_url
     homepage_title = home_page.get_title()
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.BASE_URL))
-
     assert test_data.BASE_URL in current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{current_url}'"
     assert homepage_title == test_data.HOMEPAGE_TITLE, f"Expected H1 text: '{test_data.HOMEPAGE_TITLE}', actual H1 text: '{homepage_title}'"
 
-    home_page.click_products()
-
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.PRODUCTS_PAGE_PATH))
+    home_page.nav.click_products()
 
     current_url = driver.current_url
     assert  test_data.PRODUCTS_PAGE_PATH in current_url, f"Expected URL: '{test_data.PRODUCTS_PAGE_PATH}', actual URL: '{current_url}'"
@@ -33,7 +29,7 @@ def test_open_products_page(driver):
     product_page = ProductPage(driver)
     product_page.view_product(1)
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.PRODUCT_DETAILS_PAGE_PATH))
+    WebDriverWait(driver, 5).until(EC.url_contains(test_data.PRODUCT_DETAILS_PAGE_PATH))
 
     PRODUCT1_DETAILS_PATH = f"{test_data.PRODUCT_DETAILS_PAGE_PATH}/1"
 

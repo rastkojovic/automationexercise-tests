@@ -1,6 +1,6 @@
 from pages.home_page import HomePage
 from pages.cart_page import CartPage
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from pages.product_details_page import ProductDetailsPage
@@ -11,8 +11,6 @@ def test_verify_qty_cart(driver):
     home_page = HomePage(driver)
     home_page.open()
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.BASE_URL))
-
     current_url = driver.current_url
     assert test_data.BASE_URL in current_url, f"Expected URL to contain {test_data.BASE_URL}, but got {current_url}"
 
@@ -21,7 +19,7 @@ def test_verify_qty_cart(driver):
     item_details = home_page.get_item_details(product_index)
     home_page.view_product(product_index)
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.PRODUCT_DETAILS_PAGE_PATH))
+    WebDriverWait(driver, 5).until(EC.url_contains(test_data.PRODUCT_DETAILS_PAGE_PATH))
 
     current_url = driver.current_url
     assert f"{test_data.PRODUCT_DETAILS_PAGE_PATH}/{product_index + 1}" in current_url, f"Expected URL '{test_data.PRODUCT_DETAILS_PAGE_PATH}/{product_index}', actual URL is '{current_url}'"
@@ -31,11 +29,11 @@ def test_verify_qty_cart(driver):
     product_details_page.set_quantity(product_quantity)
     product_details_page.add_to_cart()
 
-    WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".modal-content")))
+    WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".modal-content")))
 
     product_details_page.view_cart()
 
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.CART_PAGE_PATH))
+    WebDriverWait(driver, 5).until(EC.url_contains(test_data.CART_PAGE_PATH))
 
     cart_page = CartPage(driver)
     cart_item = cart_page.get_cart_items()[0]

@@ -38,9 +38,9 @@ class CartPage(BasePage):
     def item_in_cart(self, item_name):
         cart_items = self.get_cart_items()
         for item in cart_items:
-            if item.item_name == item_name:
-                return False
-        return True
+            if item.name == item_name:
+                return True
+        return False
     
     def click_checkout_button(self):
         self.driver.find_element(By.CSS_SELECTOR, "a.check_out").click()

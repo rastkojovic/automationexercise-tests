@@ -1,8 +1,9 @@
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 import test_data
+import re
 
 class HomePage(BasePage):
 
@@ -11,28 +12,13 @@ class HomePage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
+    def open(self):
+        super().open()
+        WebDriverWait.until(EC.url_matches(rf"{re.escape(test_data.BASE_URL)}(/)?$"))
+
     def get_title(self):
         h1_element = self.driver.find_element(By.TAG_NAME, "h1")
         return h1_element.text
-    
-    def click_signup_login(self):
-        signup_login_link = self.driver.find_element(By.CSS_SELECTOR, ".navbar-nav a[href='/login']")
-        signup_login_link.click()
-
-    def click_contact(self):
-        contact_link = self.driver.find_element(By.CSS_SELECTOR, ".navbar-nav a[href='/contact_us']")
-        contact_link.click()
-
-    def click_testcases(self):
-        testcases_link = self.driver.find_element(By.CSS_SELECTOR, ".navbar-nav a[href='/test_cases']")
-        testcases_link.click()
-
-    def click_products(self):
-        products_link = self.driver.find_element(By.CSS_SELECTOR, ".navbar-nav a[href='/products']")
-        products_link.click()
-
-    def click_cart(self):
-        self.driver.find_element(By.CSS_SELECTOR, ".navbar-nav a[href='/view_cart']").click()
 
     def get_signup_form_title(self):
         signup_form_title = self.driver.find_element(By.CSS_SELECTOR, "#form .signup-form h2").text
@@ -42,20 +28,9 @@ class HomePage(BasePage):
         login_form_title = self.driver.find_element(By.CSS_SELECTOR, "#form .login-form h2").text
         return login_form_title
     
-    def get_loggedin_msg(self):
-        navbar_items = self.driver.find_elements(By.CSS_SELECTOR, "ul.navbar-nav li")
-
-        for li in navbar_items:
-            if test_data.LOGGED_IN_MSG in li.text:
-                return li.text
-    
     def logout(self):
         logout_link = self.driver.find_element(By.CSS_SELECTOR, ".navbar-nav a[href='/logout']")
         logout_link.click()
-    
-    def delete_account(self):
-        delete_link = self.driver.find_element(By.CSS_SELECTOR, ".navbar-nav a[href='/delete_account']")
-        delete_link.click()
 
     def enter_subscription_email(self, email):
         email_field = self.driver.find_element(By.CSS_SELECTOR, ".searchform input[type='email']")
@@ -105,6 +80,6 @@ class HomePage(BasePage):
         category_links[category_index].click()
         if subcategory_name is not False:
             wait = WebDriverWait(self.driver, 5)
-            wait.until(expected_conditions.visibility_of_element_located((By.XPATH, f"//*[@id='{category_name}']//a[normalize-space(text())='{subcategory_name}']")))
-            element = wait.until(expected_conditions.element_to_be_clickable((By.XPATH, f"//*[@id='{category_name}']//a[normalize-space(text())='{subcategory_name}']")))
+            wait.until(EC.visibility_of_element_located((By.XPATH, f"//*[@id='{category_name}']//a[normalize-space(text())='{subcategory_name}']")))
+            element = wait.until(EC.element_to_be_clickable((By.XPATH, f"//*[@id='{category_name}']//a[normalize-space(text())='{subcategory_name}']")))
             element.click()

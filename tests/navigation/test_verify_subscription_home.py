@@ -1,5 +1,3 @@
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
 from pages.home_page import HomePage
 import test_data
 
@@ -7,8 +5,6 @@ def test_verify_subscription_home(driver):
     
     home_page = HomePage(driver)   
     home_page.open()
-
-    WebDriverWait(driver, 5).until(expected_conditions.url_contains(test_data.BASE_URL))
 
     current_url = driver.current_url
     homepage_title = home_page.get_title()
