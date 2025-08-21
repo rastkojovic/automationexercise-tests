@@ -6,6 +6,9 @@ from pages.home_page import HomePage
 from pages.signup_page import SignupPage
 
 def test_register_user(driver):
+    '''
+    Test Case 1: Register User
+    '''
 
     home_page = HomePage(driver)
     home_page.open()

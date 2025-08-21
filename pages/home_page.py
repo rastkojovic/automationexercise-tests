@@ -14,7 +14,7 @@ class HomePage(BasePage):
 
     def open(self):
         super().open()
-        WebDriverWait.until(EC.url_matches(rf"{re.escape(test_data.BASE_URL)}(/)?$"))
+        WebDriverWait(self.driver, 10).until(EC.url_matches(rf"{re.escape(test_data.BASE_URL)}(/)?$"))
 
     def get_title(self):
         h1_element = self.driver.find_element(By.TAG_NAME, "h1")
@@ -83,3 +83,14 @@ class HomePage(BasePage):
             wait.until(EC.visibility_of_element_located((By.XPATH, f"//*[@id='{category_name}']//a[normalize-space(text())='{subcategory_name}']")))
             element = wait.until(EC.element_to_be_clickable((By.XPATH, f"//*[@id='{category_name}']//a[normalize-space(text())='{subcategory_name}']")))
             element.click()
+
+    def get_recommended_items_title(self):
+        return self.driver.find_element(By.CSS_SELECTOR, ".recommended_items h2").text
+    
+    def recommended_add_to_cart(self, product_name):
+        locator = f"//div[contains(@class, 'recommended_items')]//p[text()='{product_name}']/following-sibling::a"
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.visibility_of_element_located((By.XPATH, locator)))
+        wait.until(EC.element_to_be_clickable((By.XPATH, locator))).click()
+        
+        

@@ -10,16 +10,18 @@ import test_data
 
 
 def test_register_before_checkout(driver):
+    '''
+    Test Case 15: Place Order: Register before Checkout
+    '''
     
     home_page = HomePage(driver)
     home_page.open()
 
     wait = WebDriverWait(driver, 5)
 
-    current_url = driver.current_url
     homepage_title = driver.find_element(By.TAG_NAME, "h1").text
 
-    assert test_data.BASE_URL in current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{current_url}'"
+    assert test_data.BASE_URL in driver.current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{driver.current_url}'"
     assert test_data.HOMEPAGE_TITLE in homepage_title, f"Expected title: '{test_data.HOMEPAGE_TITLE}', actual title: '{homepage_title}'"
 
     home_page.nav.click_signup_login()
@@ -66,12 +68,9 @@ def test_register_before_checkout(driver):
     home_page.add_to_cart(1)
     home_page.add_to_cart(2)
 
-    home_page.click_cart()
+    home_page.nav.click_cart()
 
-    wait.until(EC.url_contains(test_data.CART_PAGE_PATH))
-
-    current_url = driver.current_url
-    assert test_data.CART_PAGE_PATH in current_url, f"Expected URL: '{test_data.CART_PAGE_PATH}', actual URL: '{current_url}'"
+    assert test_data.CART_PAGE_PATH in driver.current_url, f"Expected URL: '{test_data.CART_PAGE_PATH}', actual URL: '{driver.current_url}'"
 
     cart_page = CartPage(driver)
     cart_page.click_checkout_button()

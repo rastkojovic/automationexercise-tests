@@ -6,14 +6,16 @@ from pages.cart_page import CartPage
 import test_data
 
 def test_add_to_cart(driver):
+    '''
+    Test Case 12: Add Products in Cart
+    '''
 
     home_page = HomePage(driver)
     home_page.open()
 
-    current_url = driver.current_url
     home_page_h1_text = home_page.get_h1_text()
 
-    assert test_data.BASE_URL in current_url, f"Expected URL to contain {test_data.BASE_URL}, but got {current_url}"
+    assert test_data.BASE_URL in driver.current_url, f"Expected URL to contain {test_data.BASE_URL}, but got {driver.current_url}"
     assert test_data.HOMEPAGE_H1_TEXT == home_page_h1_text, f"Expected H1 text: {test_data.HOMEPAGE_H1_TEXT}, actual H1 text: {home_page_h1_text}"
 
     home_page.nav.click_products()

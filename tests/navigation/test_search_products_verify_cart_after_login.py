@@ -6,17 +6,18 @@ from pages.login_page import LoginPage
 
 
 def test_search_products_verify_cart_after_login(driver):
+    '''
+    Test Case 20: Search Products and Verify Cart After Login
+    '''
     
     home_page = HomePage(driver)
     home_page.open()
 
-    current_url = driver.current_url
-    assert test_data.BASE_URL in current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: {current_url}"
+    assert test_data.BASE_URL in driver.current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: {driver.current_url}"
 
     home_page.nav.click_products()
 
-    current_url = driver.current_url
-    assert test_data.PRODUCTS_PAGE_PATH in current_url, f"Expected URL: '{test_data.PRODUCTS_PAGE_PATH}', actual URL: {current_url}"
+    assert test_data.PRODUCTS_PAGE_PATH in driver.current_url, f"Expected URL: '{test_data.PRODUCTS_PAGE_PATH}', actual URL: {driver.current_url}"
 
     product_page = ProductPage(driver)
     search_term = "jeans"

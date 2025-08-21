@@ -4,15 +4,15 @@ from selenium.webdriver.common.by import By
 import test_data
 
 def test_view_category_products(driver):
+    '''
+    Test Case 18: View Category Products
+    '''
 
     home_page = HomePage(driver)
     home_page.open()
 
-    wait = WebDriverWait(driver, 5)
-
-    current_url = driver.current_url
     homepage_title = driver.find_element(By.TAG_NAME, "h1").text
-    assert test_data.BASE_URL in current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{current_url}'"
+    assert test_data.BASE_URL in driver.current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{driver.current_url}'"
     assert test_data.HOMEPAGE_TITLE in homepage_title, f"Expected title: '{test_data.HOMEPAGE_TITLE}', actual title: '{homepage_title}'"
 
     expected_categories = ["MEN", "WOMEN", "KIDS"]

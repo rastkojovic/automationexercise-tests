@@ -2,14 +2,16 @@ from pages.home_page import HomePage
 import test_data
 
 def test_verify_subscription_home(driver):
+    '''
+    Test Case 10: Verify Subscription in home page
+    '''
     
     home_page = HomePage(driver)   
     home_page.open()
 
-    current_url = driver.current_url
     homepage_title = home_page.get_title()
 
-    assert test_data.BASE_URL in current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{current_url}'"
+    assert test_data.BASE_URL in driver.current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{driver.current_url}'"
     assert homepage_title == test_data.HOMEPAGE_TITLE, f"Expected H1 text: {test_data.HOMEPAGE_TITLE}, actual H1 text: {homepage_title}"
 
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")

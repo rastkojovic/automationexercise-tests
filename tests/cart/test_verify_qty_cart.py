@@ -7,12 +7,14 @@ from pages.product_details_page import ProductDetailsPage
 import test_data
 
 def test_verify_qty_cart(driver):
+    '''
+    Test Case 13: Verify Product quantity in Cart
+    '''
     
     home_page = HomePage(driver)
     home_page.open()
 
-    current_url = driver.current_url
-    assert test_data.BASE_URL in current_url, f"Expected URL to contain {test_data.BASE_URL}, but got {current_url}"
+    assert test_data.BASE_URL in driver.current_url, f"Expected URL to contain {test_data.BASE_URL}, but got {driver.current_url}"
 
     product_index = 3
     product_quantity = 4
@@ -21,8 +23,7 @@ def test_verify_qty_cart(driver):
 
     WebDriverWait(driver, 5).until(EC.url_contains(test_data.PRODUCT_DETAILS_PAGE_PATH))
 
-    current_url = driver.current_url
-    assert f"{test_data.PRODUCT_DETAILS_PAGE_PATH}/{product_index + 1}" in current_url, f"Expected URL '{test_data.PRODUCT_DETAILS_PAGE_PATH}/{product_index}', actual URL is '{current_url}'"
+    assert f"{test_data.PRODUCT_DETAILS_PAGE_PATH}/{product_index + 1}" in driver.current_url, f"Expected URL '{test_data.PRODUCT_DETAILS_PAGE_PATH}/{product_index}', actual URL is '{driver.current_url}'"
 
     product_details_page = ProductDetailsPage(driver)
 

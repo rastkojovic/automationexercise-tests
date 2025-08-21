@@ -1,5 +1,7 @@
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
 class ProductDetailsPage(BasePage):
 
@@ -35,3 +37,25 @@ class ProductDetailsPage(BasePage):
 
     def view_cart(self):
         self.driver.find_element(By.CSS_SELECTOR, ".modal-content a[href='/view_cart']").click()
+
+    def get_review_title(self):
+        return self.driver.find_element(By.CSS_SELECTOR, "a[href='#reviews']").text
+    
+    def _enter_data(self, id, data):
+        self.driver.find_element(By.ID, id).send_keys(data)
+
+    def enter_email(self, email):
+        self._enter_data("email", email)
+
+    def enter_name(self, name):
+        self._enter_data("name", name)
+
+    def enter_review(self, review):
+        self._enter_data("review", review)
+
+    def submit_review(self):
+        self.driver.find_element(By.ID, "button-review").click()
+
+    def get_review_message(self):
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#review-section span")))
+        return self.driver.find_element(By.CSS_SELECTOR, "#review-section span").text

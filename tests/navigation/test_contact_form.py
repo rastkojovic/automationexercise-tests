@@ -5,14 +5,16 @@ from pages.home_page import HomePage
 from pages.contact_page import ContactPage
 
 def test_contact_form(driver):
+    '''
+    Test Case 6: Contact Us Form
+    '''
 
     home_page = HomePage(driver)
     home_page.open()
 
-    current_url = driver.current_url
     homepage_title = home_page.get_title()
 
-    assert test_data.BASE_URL in current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{current_url}'"
+    assert test_data.BASE_URL in driver.current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{driver.current_url}'"
     assert homepage_title == test_data.HOMEPAGE_TITLE, f"Expected H1 text: '{test_data.HOMEPAGE_TITLE}', actual H1 text: {homepage_title}"
 
     home_page.nav.click_contact()
@@ -43,5 +45,4 @@ def test_contact_form(driver):
 
     WebDriverWait(driver, 5).until(EC.url_contains(test_data.BASE_URL))
 
-    current_url = driver.current_url
-    assert test_data.BASE_URL in current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{current_url}'"
+    assert test_data.BASE_URL in driver.current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{driver.current_url}'"

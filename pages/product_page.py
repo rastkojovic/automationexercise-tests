@@ -10,10 +10,8 @@ class ProductPage(BasePage):
         super().__init__(driver)
 
     def view_product(self, product_index):
-        product_element_list = self.driver.find_elements(By.CLASS_NAME, "col-sm-4")
-        selected_product = product_element_list[product_index]
-        view_product_link = selected_product.find_element(By.LINK_TEXT, "View Product")
-        view_product_link.click()
+        view_product_links = self.driver.find_elements(By.CSS_SELECTOR, "a[href*='product_details']")
+        view_product_links[product_index].click()
 
     def search(self, product_name):
         search_field = self.driver.find_element(By.ID, "search_product")

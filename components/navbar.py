@@ -26,13 +26,13 @@ class NavBar:
         self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".navbar-nav a[href='/']"))).click()
         self.wait.until(
             EC.all_of(EC.url_matches(rf"{re.escape(test_data.BASE_URL)}(/)?$"), # Avoid trailing / issue
-                      EC.text_to_be_present_in_element((By.TAG_NAME, "h1"), test_data.HOMEPAGE_TITLE))
-                      )
+                      lambda d: test_data.HOMEPAGE_TITLE.lower() in d.find_element(By.TAG_NAME, "h1").text.lower(),
+                      ))
 
 
     def click_products(self):
         self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href='{test_data.PRODUCTS_PAGE_PATH}']"), test_data.PRODUCTS_PAGE_PATH)
-        self.wait.until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, "h2.title"), "All Products"))
+        self.wait.until(lambda d: "all products" in d.find_element(By.CSS_SELECTOR, "h2.title").text.lower())
 
     def click_cart(self):
         self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href='{test_data.CART_PAGE_PATH}']"), test_data.CART_PAGE_PATH)
@@ -44,15 +44,15 @@ class NavBar:
 
     def click_contact(self):
         self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href='{test_data.CONTACT_PAGE_PATH}']"), test_data.CONTACT_PAGE_PATH)
-        self.wait.until(EC.text_to_be_present_in_element((By.XPATH, "(//h2[contains(@class,'title')])[1]"), "Contact Us"))
+        self.wait.until(lambda d: "contact us" in d.find_element(By.XPATH, "(//h2[contains(@class,'title')])[1]").text.lower())
 
     def click_delete_account(self):
         self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href='{test_data.DELETE_ACCOUNT_PAGE_PATH}']"), test_data.DELETE_ACCOUNT_PAGE_PATH)
-        self.wait.until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, "h2.title"), "Account Deleted!"))
+        self.wait.until(lambda d: "account deleted!" in d.find_element(By.CSS_SELECTOR, "h2.title").text.lower())
 
     def click_testcases(self):
         self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href='{test_data.TEST_CASES_PAGE_PATH}']"), test_data.TEST_CASES_PAGE_PATH)
-        self.wait.until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, "h2.title"), "Test Cases"))
+        self.wait.until(lambda d: "test cases" in d.find_element(By.CSS_SELECTOR, "h2.title").text.lower())
 
     def get_loggedin_msg(self):
         navbar_items = self.driver.find_elements(By.CSS_SELECTOR, "ul.navbar-nav li")

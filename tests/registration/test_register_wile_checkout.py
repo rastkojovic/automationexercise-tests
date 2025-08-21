@@ -10,12 +10,14 @@ from pages.payment_page import PaymentPage
 import test_data
 
 def test_register_while_checkout(driver):
+    '''
+    Test Case 14: Place Order: Register while Checkout
+    '''
 
     home_page = HomePage(driver)
     home_page.open()
 
-    current_url = driver.current_url
-    assert test_data.BASE_URL in current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: {current_url}"
+    assert test_data.BASE_URL in driver.current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: {driver.current_url}"
 
     # ADD ITEMS TO CART 0-based Index
     product_page = ProductPage(driver)
@@ -27,8 +29,7 @@ def test_register_while_checkout(driver):
     product_page.dialogue_continue_shopping()
     home_page.nav.click_cart()
 
-    current_url = driver.current_url
-    assert test_data.CART_PAGE_PATH in current_url, f"Expected page: {test_data.CART_PAGE_PATH}, actual page: {current_url}"
+    assert test_data.CART_PAGE_PATH in driver.current_url, f"Expected page: {test_data.CART_PAGE_PATH}, actual page: {driver.current_url}"
 
     cart_page = CartPage(driver)
     cart_page.click_checkout_button()
@@ -85,8 +86,7 @@ def test_register_while_checkout(driver):
     # PROCEED WITH CHECKOUT
     home_page.nav.click_cart()
 
-    current_url = driver.current_url
-    assert test_data.CART_PAGE_PATH in current_url, f"Expected page: {test_data.CART_PAGE_PATH}, actual page: {current_url}"
+    assert test_data.CART_PAGE_PATH in driver.current_url, f"Expected page: {test_data.CART_PAGE_PATH}, actual page: {driver.current_url}"
 
     cart_page.click_checkout_button()
 
