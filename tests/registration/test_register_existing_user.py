@@ -1,20 +1,10 @@
 import test_data
-from selenium.webdriver.common.by import By
-from pages.home_page import HomePage
 from pages.signup_page import SignupPage
 
-def test_register_existing_user(driver):
+def test_register_existing_user(driver, home_page):
     '''
     Test Case 5: Register User with existing email
     '''
-
-    home_page = HomePage(driver)
-    home_page.open()
-
-    homepage_title = driver.find_element(By.TAG_NAME, "h1").text
-
-    assert test_data.BASE_URL in driver.current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{driver.current_url}'"
-    assert homepage_title == test_data.HOMEPAGE_TITLE, f"Expected H1 text: '{test_data.HOMEPAGE_TITLE}', actual H1 text: '{homepage_title}'"
 
     home_page.nav.click_signup_login()
 

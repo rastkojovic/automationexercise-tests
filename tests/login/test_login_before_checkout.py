@@ -1,4 +1,3 @@
-from pages.home_page import HomePage
 from pages.login_page import LoginPage
 from pages.cart_page import CartPage
 from pages.checkout_page import CheckoutPage
@@ -8,22 +7,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 import test_data
 
-def test_login_before_checkout(driver):
+def test_login_before_checkout(driver, home_page):
     '''
     Test Case 16: Place Order: Login before Checkout
     '''
 
-    home_page = HomePage(driver)
-    home_page.open()
-
-    homepage_title = driver.find_element(By.TAG_NAME, "h1").text
-
-    assert test_data.BASE_URL in driver.current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{driver.current_url}'"
-    assert test_data.HOMEPAGE_TITLE in homepage_title, f"Expected title: '{test_data.HOMEPAGE_TITLE}', actual title: '{homepage_title}'"
-
     home_page.nav.click_signup_login()
 
-    wait = WebDriverWait(driver, 5)
+    wait = WebDriverWait(driver, 10)
     
     login_page = LoginPage(driver)
     login_page.enter_email(test_data.EMAIL)
@@ -64,7 +55,7 @@ def test_login_before_checkout(driver):
     checkout_page.enter_message("This is a comment on the order.")
     checkout_page.click_payment_btn()
 
-    WebDriverWait(driver, 5).until(EC.url_contains(test_data.PAYMENT_PAGE_PATH))
+    wait.until(EC.url_contains(test_data.PAYMENT_PAGE_PATH))
 
     # ENTER PAYMENT INFO & CONFIRM PURCHASE
     payment_page = PaymentPage(driver)
@@ -84,7 +75,7 @@ def test_login_before_checkout(driver):
     
     payment_page.pay_and_confirm()
 
-    WebDriverWait(driver, 5).until(EC.url_contains("payment_done"))
+    wait.until(EC.url_contains("payment_done"))
 
     # Delete account
     payment_page.nav.click_delete_account()

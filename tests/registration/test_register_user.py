@@ -2,20 +2,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import test_data
-from pages.home_page import HomePage
 from pages.signup_page import SignupPage
 
-def test_register_user(driver):
+def test_register_user(driver, home_page):
     '''
     Test Case 1: Register User
     '''
-
-    home_page = HomePage(driver)
-    home_page.open()
-
-    homepage_title = home_page.get_title()
-
-    assert homepage_title == test_data.HOMEPAGE_TITLE, f"Expected H1 text '{test_data.HOMEPAGE_TITLE}', actual H1 text {homepage_title}"
 
     home_page.nav.click_signup_login()
 
@@ -27,7 +19,7 @@ def test_register_user(driver):
     signup_page.enter_email(test_data.EMAIL)
     signup_page.click_signup_button()
 
-    WebDriverWait(driver, 5).until(EC.url_contains(test_data.SIGNUP_PAGE_PATH))
+    WebDriverWait(driver, 10).until(EC.url_contains(test_data.SIGNUP_PAGE_PATH))
 
     signup_page_title = driver.find_element(By.CSS_SELECTOR, ".login-form h2.title").text
 

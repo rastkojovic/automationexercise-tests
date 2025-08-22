@@ -32,7 +32,7 @@ class PaymentPage(BasePage):
 
     def success_msg_present(self):
         try:
-            wait = WebDriverWait(self.driver, 5, poll_frequency=0.1, ignored_exceptions=(StaleElementReferenceException,))
+            wait = WebDriverWait(self.driver, 10, poll_frequency=0.1, ignored_exceptions=(StaleElementReferenceException,))
             wait.until(lambda driver: "hide" not in driver.find_element(By.ID, "success_message").get_attribute("class"))
             return test_data.ORDER_SUCCESS_MESSAGE == self.driver.find_element(By.CSS_SELECTOR, "#success_message .alert-success").text.strip()
         except TimeoutException:

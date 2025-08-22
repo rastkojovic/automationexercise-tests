@@ -1,19 +1,13 @@
 import test_data
-from pages.home_page import HomePage
 from pages.product_page import ProductPage
 from pages.cart_page import CartPage
 from pages.login_page import LoginPage
 
 
-def test_search_products_verify_cart_after_login(driver):
+def test_search_products_verify_cart_after_login(driver, home_page):
     '''
     Test Case 20: Search Products and Verify Cart After Login
     '''
-    
-    home_page = HomePage(driver)
-    home_page.open()
-
-    assert test_data.BASE_URL in driver.current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: {driver.current_url}"
 
     home_page.nav.click_products()
 
@@ -34,7 +28,7 @@ def test_search_products_verify_cart_after_login(driver):
     product_num = len(product_items)
     for i in range(product_num):
         product_page.add_to_cart(i)
-        product_page.dialogue_continue_shopping()
+        product_page.dialogue.continue_shopping()
 
     product_page.nav.click_cart()
 

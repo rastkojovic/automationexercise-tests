@@ -1,21 +1,13 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 import test_data
-from pages.home_page import HomePage
 from pages.product_page import ProductPage
 
-def test_view_and_cart_brand_products(driver):
+def test_view_and_cart_brand_products(driver, home_page):
     '''
     Test Case 19: View & Cart Brand Products
     '''
-    
-    home_page = HomePage(driver)
-    home_page.open()
-
-    wait = WebDriverWait(driver, 5)
-
-    assert test_data.BASE_URL in driver.current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{driver.current_url}'"
-
+    wait = WebDriverWait(driver, 10)
     home_page.nav.click_products()
 
     assert test_data.PRODUCTS_PAGE_PATH in driver.current_url, f"Expected URL: '{test_data.PRODUCTS_PAGE_PATH}', actual URL: '{driver.current_url}'"

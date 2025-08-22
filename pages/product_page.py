@@ -1,4 +1,5 @@
 from pages.base_page import BasePage
+from components.dialogue import Dialogue
 from selenium.webdriver.common.by import By
 import test_data
 
@@ -8,6 +9,7 @@ class ProductPage(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
+        self.dialogue = Dialogue(self.driver)
 
     def view_product(self, product_index):
         view_product_links = self.driver.find_elements(By.CSS_SELECTOR, "a[href*='product_details']")
@@ -54,15 +56,15 @@ class ProductPage(BasePage):
         add_to_cart_button = self.driver.find_element(By.XPATH, add_to_cart_btn_xpath)
         add_to_cart_button.click()
 
-    def dialogue_continue_shopping(self):
-        modal_content = self.driver.find_element(By.CSS_SELECTOR, ".modal-content")
-        continue_shopping_button = modal_content.find_element(By.CSS_SELECTOR, ".modal-footer button")
-        continue_shopping_button.click()
+    # def dialogue_continue_shopping(self):
+    #     modal_content = self.driver.find_element(By.CSS_SELECTOR, ".modal-content")
+    #     continue_shopping_button = modal_content.find_element(By.CSS_SELECTOR, ".modal-footer button")
+    #     continue_shopping_button.click()
 
-    def dialogue_view_cart(self):
-        modal_content = self.driver.find_element(By.CSS_SELECTOR, ".modal-content")
-        view_cart_link = modal_content.find_element(By.LINK_TEXT, "View Cart")
-        view_cart_link.click()
+    # def dialogue_view_cart(self):
+    #     modal_content = self.driver.find_element(By.CSS_SELECTOR, ".modal-content")
+    #     view_cart_link = modal_content.find_element(By.LINK_TEXT, "View Cart")
+    #     view_cart_link.click()
 
     def get_brand_names(self):
         brand_name_elements = self.driver.find_elements(By.CSS_SELECTOR, ".brands-name a")

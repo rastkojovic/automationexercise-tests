@@ -1,19 +1,10 @@
-from pages.home_page import HomePage
 from pages.cart_page import CartPage
 import test_data
 
-def test_verify_subscription_cart(driver):
+def test_verify_subscription_cart(driver, home_page):
     '''
     Test Case 11: Verify Subscription in Cart page
     '''
-
-    home_page = HomePage(driver)
-    home_page.open()
-
-    homepage_title = home_page.get_title()
-
-    assert test_data.BASE_URL in driver.current_url, f"Expected URL to contain {test_data.BASE_URL}, but got {driver.current_url}"
-    assert test_data.HOMEPAGE_TITLE == homepage_title, f"Expected H1 text: {test_data.HOMEPAGE_TITLE}, actual H1 text: {homepage_title}"
 
     home_page.nav.click_cart()
 

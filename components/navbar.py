@@ -46,6 +46,10 @@ class NavBar:
         self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href='{test_data.CONTACT_PAGE_PATH}']"), test_data.CONTACT_PAGE_PATH)
         self.wait.until(lambda d: "contact us" in d.find_element(By.XPATH, "(//h2[contains(@class,'title')])[1]").text.lower())
 
+    def click_logout(self):
+        self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href='{test_data.LOGOUT_PATH}']"), test_data.LOGOUT_PATH)
+        self.wait.until(EC.url_matches(rf"{re.escape(test_data.BASE_URL)}(/)?$"))
+
     def click_delete_account(self):
         self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href='{test_data.DELETE_ACCOUNT_PAGE_PATH}']"), test_data.DELETE_ACCOUNT_PAGE_PATH)
         self.wait.until(lambda d: "account deleted!" in d.find_element(By.CSS_SELECTOR, "h2.title").text.lower())

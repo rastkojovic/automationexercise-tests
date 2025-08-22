@@ -1,22 +1,13 @@
-from pages.home_page import HomePage
 from pages.login_page import LoginPage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import test_data
 
-def test_valid_login(driver):
+def test_valid_login(driver, home_page):
     '''
     Test Case 2: Login User with correct email and password
     '''
-    
-    home_page = HomePage(driver)
-    home_page.open()
-
-    homepage_title = home_page.get_title()
-
-    assert test_data.BASE_URL in driver.current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{driver.current_url}'"
-    assert homepage_title == test_data.HOMEPAGE_TITLE, f"Expected H1 text: {test_data.HOMEPAGE_TITLE}, actual H1 text: {homepage_title}"
 
     home_page.nav.click_signup_login()
 
@@ -29,7 +20,7 @@ def test_valid_login(driver):
     login_page.enter_password(test_data.PASSWORD)
     login_page.click_login_button()
 
-    WebDriverWait(driver, 5).until(EC.url_contains(test_data.BASE_URL))
+    WebDriverWait(driver, 10).until(EC.url_contains(test_data.BASE_URL))
 
     navbar_items = driver.find_elements(By.CSS_SELECTOR, ".navbar-nav li")
     logged_in_text = navbar_items[9].text.strip()

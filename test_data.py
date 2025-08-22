@@ -1,6 +1,7 @@
 # URLs
 BASE_URL = "https://www.automationexercise.com"
 LOGIN_PAGE_PATH = "/login"
+LOGOUT_PATH = "/logout"
 SIGNUP_PAGE_PATH = "/signup"
 CONTACT_PAGE_PATH = "/contact_us"
 TEST_CASES_PAGE_PATH = "/test_cases"

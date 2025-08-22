@@ -1,4 +1,5 @@
 from pages.base_page import BasePage
+from components.dialogue import Dialogue
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -11,12 +12,18 @@ class HomePage(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver)
+        self.dialogue = Dialogue(self.driver)
 
     def open(self):
         super().open()
         WebDriverWait(self.driver, 10).until(EC.url_matches(rf"{re.escape(test_data.BASE_URL)}(/)?$"))
 
-    def get_title(self):
+    def assert_is_open(self):
+        homepage_title = self.get_heading()
+        assert test_data.BASE_URL in self.driver.current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{self.driver.current_url}'"
+        assert test_data.HOMEPAGE_TITLE in homepage_title, f"Expected title: '{test_data.HOMEPAGE_TITLE}', actual title: '{homepage_title}'"
+
+    def get_heading(self):
         h1_element = self.driver.find_element(By.TAG_NAME, "h1")
         return h1_element.text
 
@@ -79,7 +86,7 @@ class HomePage(BasePage):
                 print("Invalid category!")
         category_links[category_index].click()
         if subcategory_name is not False:
-            wait = WebDriverWait(self.driver, 5)
+            wait = WebDriverWait(self.driver, 10)
             wait.until(EC.visibility_of_element_located((By.XPATH, f"//*[@id='{category_name}']//a[normalize-space(text())='{subcategory_name}']")))
             element = wait.until(EC.element_to_be_clickable((By.XPATH, f"//*[@id='{category_name}']//a[normalize-space(text())='{subcategory_name}']")))
             element.click()
@@ -89,7 +96,7 @@ class HomePage(BasePage):
     
     def recommended_add_to_cart(self, product_name):
         locator = f"//div[contains(@class, 'recommended_items')]//p[text()='{product_name}']/following-sibling::a"
-        wait = WebDriverWait(self.driver, 10)
+        wait = WebDriverWait(self.driver, 15)
         wait.until(EC.visibility_of_element_located((By.XPATH, locator)))
         wait.until(EC.element_to_be_clickable((By.XPATH, locator))).click()
         

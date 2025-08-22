@@ -1,16 +1,12 @@
-import test_data
-from pages.home_page import HomePage
+from pages.cart_page import CartPage
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 from selenium.webdriver.common.by import By
 
-def test_add_to_cart_from_recommended(driver):
+def test_add_to_cart_from_recommended(driver, home_page):
     '''
     Test Case 22: Add to cart from Recommended items
     '''
-
-    home_page = HomePage(driver)
-    home_page.open()
 
     recommended_items = driver.find_element(By.CLASS_NAME, "recommended_items")
     # Using scroll origin and pause to make the scroll visible
@@ -20,6 +16,9 @@ def test_add_to_cart_from_recommended(driver):
     expected_title = "RECOMMENDED ITEMS"
     assert recommended_items_title == expected_title, f"Expected title: '{expected_title}', actual title: '{recommended_items_title}'"
 
-    # TODO: Click on 'Add To Cart' on Recommended product
-    # TODO: Click on 'View Cart' button
-    # TODO: Verify that product is displayed in cart page
+    product_name = "Men Tshirt"
+    home_page.recommended_add_to_cart(product_name)
+    home_page.dialogue.view_cart()
+
+    cart_page = CartPage(driver)
+    assert cart_page.item_in_cart(product_name), f"Product '{product_name}' not in cart!"

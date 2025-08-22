@@ -1,17 +1,11 @@
-from pages.home_page import HomePage
 from pages.product_page import ProductPage
 from pages.product_details_page import ProductDetailsPage
 import test_data
 
-def test_review_product(driver):
+def test_review_product(driver, home_page):
     '''
     Test Case 21: Add review on product
     '''
-    
-    home_page = HomePage(driver)
-    home_page.open()
-
-    assert test_data.BASE_URL in driver.current_url, f"Expected URL: '{test_data.BASE_URL}', actual URL: '{driver.current_url}'"
 
     home_page.nav.click_products()
     assert test_data.PRODUCTS_PAGE_PATH in driver.current_url, f"Expected URL: '{test_data.PRODUCTS_PAGE_PATH}', actual URL: '{driver.current_url}'"
