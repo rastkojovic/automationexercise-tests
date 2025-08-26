@@ -36,6 +36,21 @@ class CheckoutPage(BasePage):
             "phone_num": phone_num
         }
     
+    def get_order_details(self):
+        products = self.driver.find_elements(By.XPATH, "//tr[contains(@id, 'product')]")
+        order_details = []
+        '''
+        items = [[item_name, item_price, item_qty, item_total]]
+        '''
+        for product in products:
+            item_name = product.find_element(By.XPATH, "/td[@class='cart_description']//a").text
+            item_price = product.find_element(By.XPATH, "/td[@class='cart_price']/p").text.split(" ")[1]
+            item_qty = product.find_element(By.XPATH, "/td[@class='cart_quantity']/button").text
+            item_total = product.find_element(By.XPATH, "/td[@class='cart_total']/p").text.split(" ")[1]
+            order_details.append([item_name, item_price, item_qty, item_total])
+
+        return order_details
+    
     def enter_message(self, message):
         self.driver.find_element(By.CSS_SELECTOR, "#ordermsg textarea").send_keys(message)
         
