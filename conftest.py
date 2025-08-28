@@ -1,12 +1,13 @@
 import pytest
 from pages.home_page import HomePage
+from pages.login_page import LoginPage
+from pages.signup_page import SignupPage
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import test_data
+from flows.account_flow import AccountFlow
 
 @pytest.fixture
 def driver():
-
     options = Options()
     options.add_argument('--incognito')
     driver = webdriver.Chrome(options=options)
@@ -20,3 +21,20 @@ def home_page(driver):
     page.open()
     page.assert_is_open()
     return page
+
+@pytest.fixture
+def ensure_account(driver, home_page):
+
+    flow = AccountFlow(driver)
+
+    # Setup: Create account
+    home_page.nav.click_signup_login()
+    login_page = LoginPage(driver)
+    signup_page = SignupPage(driver)
+    flow.create(login_page, signup_page)
+    flow.logout(home_page)
+
+    yield
+
+    # Teardown: Delete account
+    home_page.nav.click_delete_account()

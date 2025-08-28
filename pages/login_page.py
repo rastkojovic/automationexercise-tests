@@ -20,3 +20,6 @@ class LoginPage(BasePage):
     def click_login_button(self):
         login_button = self.driver.find_element(By.CSS_SELECTOR, ".login-form button[data-qa='login-button']")
         login_button.click()
+
+    def get_login_form_title(self):
+        return self.driver.find_element(By.CSS_SELECTOR, "#form .login-form h2").text

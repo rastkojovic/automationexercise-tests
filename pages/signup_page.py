@@ -23,10 +23,17 @@ class SignupPage(BasePage):
         signup_button = self.driver.find_element(By.CSS_SELECTOR, "form[action='/signup'] button[data-qa='signup-button']")
         signup_button.click()
 
-    # /login page - signup form
-    def get_form_title(self):
-        form_title = self.driver.find_element(By.CSS_SELECTOR, ".signup-form h2").text
-        return form_title
+    def get_signup_form_title(self):
+        return self.driver.find_element(By.CSS_SELECTOR, ".signup-form h2").text
+    
+    def get_signup_page_title(self):
+        return self.driver.find_element(By.CSS_SELECTOR, ".login-form h2.title").text
+    
+    def get_account_created_title(self):
+        return self.driver.find_element(By.CSS_SELECTOR, "h2[data-qa='account-created']").text
+    
+    def click_continue_btn(self):
+        return self.driver.find_element(By.CSS_SELECTOR, "a[data-qa='continue-button']").click()
     
     def get_error_msg(self):
         try:

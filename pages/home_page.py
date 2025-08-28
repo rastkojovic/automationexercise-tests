@@ -99,5 +99,8 @@ class HomePage(BasePage):
         wait = WebDriverWait(self.driver, 15)
         wait.until(EC.visibility_of_element_located((By.XPATH, locator)))
         wait.until(EC.element_to_be_clickable((By.XPATH, locator))).click()
+
+    def click_up(self):
+        self.driver.find_element(By.ID, "scrollUp").click()
         
         

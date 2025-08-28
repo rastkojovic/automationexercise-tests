@@ -1,8 +1,8 @@
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import test_data
 from pages.signup_page import SignupPage
+from pages.delete_page import DeletePage
 
 def test_register_user(driver, home_page):
     '''
@@ -19,10 +19,10 @@ def test_register_user(driver, home_page):
     signup_page.enter_email(test_data.EMAIL)
     signup_page.click_signup_button()
 
-    WebDriverWait(driver, 10).until(EC.url_contains(test_data.SIGNUP_PAGE_PATH))
+    wait = WebDriverWait(driver, 10)
+    wait.until(EC.url_contains(test_data.SIGNUP_PAGE_PATH))
 
-    signup_page_title = driver.find_element(By.CSS_SELECTOR, ".login-form h2.title").text
-
+    signup_page_title = signup_page.get_signup_page_title()
     assert signup_page_title == test_data.SIGNUP_PAGE_TITLE, f"Expected title: '{test_data.SIGNUP_PAGE_TITLE}', actual title: {signup_page_title}"
 
     signup_page.select_title(test_data.TITLE)
@@ -42,22 +42,18 @@ def test_register_user(driver, home_page):
     signup_page.enter_mobile(test_data.PHONE_NUM)
     signup_page.create_account()
 
-
-    account_created_title = driver.find_element(By.CSS_SELECTOR, "h2[data-qa='account-created']").text
-
+    account_created_title = signup_page.get_account_created_title()
     assert account_created_title == test_data.ACCOUNT_CREATED_TITLE, f"Expected H2 title: '{test_data.ACCOUNT_CREATED_TITLE}', actual H2 title: '{account_created_title}'"
     
-
-    continue_button = driver.find_element(By.CSS_SELECTOR, "a[data-qa='continue-button']")
-    continue_button.click()
+    signup_page.click_continue_btn()
 
     logged_in_text = signup_page.nav.get_loggedin_msg()
     assert logged_in_text == f"Logged in as {test_data.NAME}", f"Expected text: 'Logged in as {test_data.NAME}', actual text: '{logged_in_text}'"
 
     signup_page.nav.click_delete_account()
-    account_deleted_title = driver.find_element(By.CSS_SELECTOR, "h2[data-qa='account-deleted']").text
 
+    delete_page = DeletePage(driver)
+    account_deleted_title = delete_page.get_account_deleted_title()
     assert account_deleted_title == test_data.ACCOUNT_DELETED_TITLE, f"Expected title: '{test_data.ACCOUNT_DELETED_TITLE}', actual title: '{account_deleted_title}'"
 
-    continue_button = driver.find_element(By.CSS_SELECTOR, "a[data-qa='continue-button']")
-    continue_button.click()
+    delete_page.click_continue_btn()

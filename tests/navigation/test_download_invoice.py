@@ -11,19 +11,15 @@ def test_download_invoice(driver, home_page):
     Test Case 24: Download Invoice after purchase order
     '''
 
-    # Add products to cart
     home_page.add_to_cart(1)
     home_page.add_to_cart(3)
     home_page.add_to_cart(4)
 
-    # Click cart button
     home_page.nav.click_cart()
 
-    # Click Proceed To Checkout
     cart_page = CartPage(driver)
     cart_page.click_checkout_button()
 
-    # Click 'Register / Login' button
     dialogue_locator = "//div[contains(@class, 'modal-dialog')]"
     link_locator = "//div[contains(@class, 'modal-dialog')]//a[@href='/login']"
     wait = WebDriverWait(driver, 10)
@@ -35,21 +31,17 @@ def test_download_invoice(driver, home_page):
     register_login_link = driver.find_element(By.XPATH, link_locator)
     register_login_link.click()
 
-    # Fill all details in Signup and create account
+    # Create account [Example using AccountFlow]
     account_flow = AccountFlow(driver)
     account_flow.create()
 
-    # Verify ' Logged in as username' at top
     loggedin_msg = home_page.nav.get_loggedin_msg()
     assert test_data.LOGGED_IN_MSG in loggedin_msg, f"Expected message: '{test_data.LOGGED_IN_MSG}', actual message: '{loggedin_msg}'"
 
-    # Click 'Cart' button
     home_page.nav.click_cart()
 
-    # Click 'Proceed To Checkout' button
     cart_page.click_checkout_button()
 
-    # Verify Address Details and Review Your Order
     checkout_page = CheckoutPage(driver)
     address_details = checkout_page.get_address_details()
 

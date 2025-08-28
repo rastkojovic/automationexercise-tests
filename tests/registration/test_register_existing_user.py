@@ -9,7 +9,7 @@ def test_register_existing_user(driver, home_page):
     home_page.nav.click_signup_login()
 
     signup_page = SignupPage(driver)
-    signup_form_title = signup_page.get_form_title()
+    signup_form_title = signup_page.get_signup_form_title()
 
     assert signup_form_title == test_data.SIGNUP_FORM_TITLE, f"Expected H2 text: '{test_data.SIGNUP_FORM_TITLE}', actual H2 text: '{signup_form_title}'"
 
