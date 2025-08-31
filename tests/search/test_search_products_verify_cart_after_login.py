@@ -2,9 +2,10 @@ import test_data
 from pages.product_page import ProductPage
 from pages.cart_page import CartPage
 from pages.login_page import LoginPage
+from flows.account_flow import AccountFlow
 
 
-def test_search_products_verify_cart_after_login(driver, home_page):
+def test_search_products_verify_cart_after_login(driver, home_page, ensure_account):
     '''
     Test Case 20: Search Products and Verify Cart After Login
     '''
@@ -40,9 +41,8 @@ def test_search_products_verify_cart_after_login(driver, home_page):
     cart_page.nav.click_signup_login()
 
     login_page = LoginPage(driver)
-    login_page.enter_email(test_data.EMAIL)
-    login_page.enter_password(test_data.PASSWORD)
-    login_page.click_login_button()
+    flow = AccountFlow(driver)
+    flow.login(login_page)
 
     login_page.nav.click_cart()
     # Check if all added items are in cart again

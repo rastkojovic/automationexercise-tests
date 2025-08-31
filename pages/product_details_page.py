@@ -8,15 +8,18 @@ class ProductDetailsPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
+    def normalize_text(self, text):
+        return " ".join(text.replace("\xa0", " ").split())
+
     def get_product_details(self):
 
         product_information_element = self.driver.find_element(By.CLASS_NAME, "product-information")
-        name = product_information_element.find_element(By.TAG_NAME, "h2").text
-        category = product_information_element.find_elements(By.TAG_NAME, "p")[0].text.split(":")[1].strip()
-        price = product_information_element.find_element(By.CSS_SELECTOR, "span > span").text
-        availability = product_information_element.find_elements(By.TAG_NAME, "p")[1].text.split(":")[1].strip()
-        condition = product_information_element.find_elements(By.TAG_NAME, "p")[2].text.split(":")[1].strip()
-        brand = product_information_element.find_elements(By.TAG_NAME, "p")[3].text.split(":")[1].strip()
+        name = self.normalize_text(product_information_element.find_element(By.TAG_NAME, "h2").text)
+        category = self.normalize_text(product_information_element.find_elements(By.TAG_NAME, "p")[0].text.split(":")[1])
+        price = self.normalize_text(product_information_element.find_element(By.CSS_SELECTOR, "span > span").text)
+        availability = self.normalize_text(product_information_element.find_elements(By.TAG_NAME, "p")[1].text.split(":")[1])
+        condition = self.normalize_text(product_information_element.find_elements(By.TAG_NAME, "p")[2].text.split(":")[1])
+        brand = self.normalize_text(product_information_element.find_elements(By.TAG_NAME, "p")[3].text.split(":")[1])
 
         return {
             "name": name,

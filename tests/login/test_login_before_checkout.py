@@ -2,12 +2,12 @@ from pages.login_page import LoginPage
 from pages.cart_page import CartPage
 from pages.checkout_page import CheckoutPage
 from pages.payment_page import PaymentPage
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from flows.account_flow import AccountFlow
 import test_data
 
-def test_login_before_checkout(driver, home_page):
+def test_login_before_checkout(driver, home_page, ensure_account):
     '''
     Test Case 16: Place Order: Login before Checkout
     '''
@@ -17,18 +17,20 @@ def test_login_before_checkout(driver, home_page):
     wait = WebDriverWait(driver, 10)
     
     login_page = LoginPage(driver)
-    login_page.enter_email(test_data.EMAIL)
-    login_page.enter_password(test_data.PASSWORD)
-    login_page.click_login_button()
+    flow = AccountFlow(driver)
+    flow.login(login_page)
 
     wait.until(EC.url_contains(test_data.BASE_URL))
 
     loggedin_message = home_page.nav.get_loggedin_msg()
     assert test_data.LOGGED_IN_MSG in loggedin_message, f"Expected message: '{test_data.LOGGED_IN_MSG}', actual message: '{loggedin_message}'"
 
-    home_page.add_to_cart(0)
     home_page.add_to_cart(1)
+    home_page.dialogue.continue_shopping()
     home_page.add_to_cart(2)
+    home_page.dialogue.continue_shopping()
+    home_page.add_to_cart(3)
+    home_page.dialogue.continue_shopping()
     home_page.nav.click_cart()
     
     assert test_data.CART_PAGE_PATH in driver.current_url, f"Expected URL: '{test_data.CART_PAGE_PATH}', actual URL: {driver.current_url}"
@@ -74,14 +76,4 @@ def test_login_before_checkout(driver, home_page):
     assert payment_page.success_msg_present(), f"Expected success message: '{test_data.ORDER_SUCCESS_MESSAGE}' but got none"
     
     payment_page.pay_and_confirm()
-
     wait.until(EC.url_contains("payment_done"))
-
-    # Delete account
-    payment_page.nav.click_delete_account()
-
-    account_deleted_title = driver.find_element(By.CSS_SELECTOR, "h2[data-qa='account-deleted']").text
-    assert account_deleted_title == test_data.ACCOUNT_DELETED_TITLE, f"Expected title: '{test_data.ACCOUNT_DELETED_TITLE}', actual title: '{account_deleted_title}'"
-
-    continue_button = driver.find_element(By.CSS_SELECTOR, "a[data-qa='continue-button']")
-    continue_button.click()

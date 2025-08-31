@@ -5,6 +5,7 @@ from pages.payment_page import PaymentPage
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from flows.account_flow import AccountFlow
 import test_data
 
 
@@ -54,9 +55,12 @@ def test_register_before_checkout(driver, home_page):
     assert logged_in_text == f"Logged in as {test_data.NAME}", f"Expected text: 'Logged in as {test_data.NAME}', actual text: '{logged_in_text}'"
 
     # ADD ITEMS TO CART
-    home_page.add_to_cart(0)
     home_page.add_to_cart(1)
+    home_page.dialogue.continue_shopping()
     home_page.add_to_cart(2)
+    home_page.dialogue.continue_shopping()
+    home_page.add_to_cart(3)
+    home_page.dialogue.continue_shopping()
 
     home_page.nav.click_cart()
 
@@ -109,10 +113,5 @@ def test_register_before_checkout(driver, home_page):
     wait.until(EC.url_contains("payment_done"))
 
     # Delete account
-    payment_page.nav.click_delete_account()
-
-    account_deleted_title = driver.find_element(By.CSS_SELECTOR, "h2[data-qa='account-deleted']").text
-    assert account_deleted_title == test_data.ACCOUNT_DELETED_TITLE, f"Expected title: '{test_data.ACCOUNT_DELETED_TITLE}', actual title: '{account_deleted_title}'"
-
-    continue_button = driver.find_element(By.CSS_SELECTOR, "a[data-qa='continue-button']")
-    continue_button.click()
+    flow = AccountFlow(driver)
+    flow.delete(home_page)

@@ -19,9 +19,10 @@ def test_contact_form(driver, home_page):
     contact_page.enter_email(test_data.EMAIL)
     contact_page.enter_subject(test_data.CONTACT_SUBJECT)
     contact_page.enter_message(test_data.CONTACT_MESSAGE)
-    # Create dummy file
+    # Create dummy file for upload
     with open(file="dummy_file.txt", mode="w") as file:
-        file.write("Test file.\nTest file.\nTest file.\nTest file.\n")
+        for _ in range(20):
+            file.write(f"Test file.\n")
     contact_page.upload_file("dummy_file.txt")
     contact_page.submit()
 

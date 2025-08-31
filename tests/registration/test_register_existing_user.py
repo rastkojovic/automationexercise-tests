@@ -1,7 +1,7 @@
 import test_data
 from pages.signup_page import SignupPage
 
-def test_register_existing_user(driver, home_page):
+def test_register_existing_user(driver, home_page, ensure_account):
     '''
     Test Case 5: Register User with existing email
     '''

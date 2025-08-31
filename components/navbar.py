@@ -29,23 +29,23 @@ class NavBar:
                       ))
 
     def click_products(self):
-        self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href='{test_data.PRODUCTS_PAGE_PATH}']"))
+        self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href*='{test_data.PRODUCTS_PAGE_PATH}']"))
         self.wait.until(lambda d: "all products" in d.find_element(By.CSS_SELECTOR, "h2.title").text.lower())
 
     def click_cart(self):
-        self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href='{test_data.CART_PAGE_PATH}']"))
-        self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "a.check_out")))
+        self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href*='{test_data.CART_PAGE_PATH}']"))
+        self.wait.until(EC.visibility_of_element_located((By.XPATH, "//section[@id='cart_items']//li[contains(text(), 'Shopping Cart')]")))
 
     def click_signup_login(self):
-        self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href='{test_data.LOGIN_PAGE_PATH}']"))
+        self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href*='{test_data.LOGIN_PAGE_PATH}']"))
         self.wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "login-form")))
 
     def click_contact(self):
-        self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href='{test_data.CONTACT_PAGE_PATH}']"))
+        self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href*='{test_data.CONTACT_PAGE_PATH}']"))
         self.wait.until(lambda d: "contact us" in d.find_element(By.XPATH, "(//h2[contains(@class,'title')])[1]").text.lower())
 
     def click_logout(self):
-        self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href='{test_data.LOGOUT_PATH}']"))
+        self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href*='{test_data.LOGOUT_PATH}']"))
         # Avoid inconsistent redirect issue
         self.wait.until(EC.any_of(
             EC.url_contains(test_data.LOGOUT_PATH),
@@ -53,17 +53,16 @@ class NavBar:
         )
 
     def click_delete_account(self):
-        self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href='{test_data.DELETE_ACCOUNT_PAGE_PATH}']"))
+        self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href*='{test_data.DELETE_ACCOUNT_PAGE_PATH}']"))
         self.wait.until(lambda d: "account deleted!" in d.find_element(By.CSS_SELECTOR, "h2.title").text.lower())
 
     def click_testcases(self):
-        self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href='{test_data.TEST_CASES_PAGE_PATH}']"))
+        self._click_link((By.CSS_SELECTOR, f".navbar-nav a[href*='{test_data.TEST_CASES_PAGE_PATH}']"))
         self.wait.until(lambda d: "test cases" in d.find_element(By.CSS_SELECTOR, "h2.title").text.lower())
 
     def get_loggedin_msg(self):
-        navbar_items = self.driver.find_elements(By.CSS_SELECTOR, "ul.navbar-nav li")
-
-        for li in navbar_items:
-            if test_data.LOGGED_IN_MSG in li.text:
-                return li.text
-        return ""
+        msg = self.driver.find_element(By.XPATH, f"//ul[contains(@class, 'navbar-nav')]//a[contains(text(), '{test_data.LOGGED_IN_MSG}')]")
+        if msg:
+            return msg.text
+        else:
+            return ""

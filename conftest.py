@@ -4,6 +4,7 @@ from pages.login_page import LoginPage
 from pages.signup_page import SignupPage
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import TimeoutException, NoSuchElementException, StaleElementReferenceException
 from flows.account_flow import AccountFlow
 
 @pytest.fixture
@@ -37,4 +38,9 @@ def ensure_account(driver, home_page):
     yield
 
     # Teardown: Delete account
-    home_page.nav.click_delete_account()
+    try:
+        flow.delete(login_page)
+    except (NoSuchElementException, TimeoutException, StaleElementReferenceException):
+        flow.login(login_page)
+        flow.delete(login_page)
+    

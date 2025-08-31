@@ -14,14 +14,13 @@ def test_verify_qty_cart(driver, home_page):
     product_quantity = 4
     item_details = home_page.get_item_details(product_index)
     home_page.view_product(product_index)
-    wait = WebDriverWait(driver, 10)
 
+    wait = WebDriverWait(driver, 10)
     wait.until(EC.url_contains(test_data.PRODUCT_DETAILS_PAGE_PATH))
 
     assert f"{test_data.PRODUCT_DETAILS_PAGE_PATH}/{product_index + 1}" in driver.current_url, f"Expected URL '{test_data.PRODUCT_DETAILS_PAGE_PATH}/{product_index}', actual URL is '{driver.current_url}'"
 
     product_details_page = ProductDetailsPage(driver)
-
     product_details_page.set_quantity(product_quantity)
     product_details_page.add_to_cart()
 
@@ -32,8 +31,9 @@ def test_verify_qty_cart(driver, home_page):
     wait.until(EC.url_contains(test_data.CART_PAGE_PATH))
 
     cart_page = CartPage(driver)
-    cart_item = cart_page.get_cart_items()[0]
+    cart_items = cart_page.get_cart_items()
 
-    assert cart_item.name == item_details["name"], f"Expected item name '{item_details['name']}', but got '{cart_item.name}'"
-    assert cart_item.price == item_details["price"], f"Expected item price '{item_details['price']}', but got '{cart_item.price}'"
-    assert cart_item.quantity == product_quantity, f"Expected item quantity '{product_quantity}', but got '{cart_item.quantity}'"
+    product = cart_items[0]
+    assert product.name == item_details["name"], f"Expected item name '{item_details['name']}', but got '{product.name}'"
+    assert product.price == item_details["price"], f"Expected item price '{item_details['price']}', but got '{product.price}'"
+    assert product.quantity == product_quantity, f"Expected item quantity '{product_quantity}', but got '{product.quantity}'"

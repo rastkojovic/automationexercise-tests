@@ -23,3 +23,6 @@ class LoginPage(BasePage):
 
     def get_login_form_title(self):
         return self.driver.find_element(By.CSS_SELECTOR, "#form .login-form h2").text
+    
+    def get_invalid_cred_msg(self):
+        return self.driver.find_element(By.CSS_SELECTOR, ".login-form p").text

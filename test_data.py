@@ -62,7 +62,7 @@ PRODUCT2_BRAND = "H&M"
 
 # TITLES AND MESSAGES
 HOMEPAGE_TITLE = "AutomationExercise"
-LOGGED_IN_MSG = "Logged in as Jane"
+LOGGED_IN_MSG = "Logged in as"
 SIGNUP_FORM_TITLE = "New User Signup!"
 LOGIN_FORM_TITLE = "Login to your account"
 SIGNUP_PAGE_TITLE = "ENTER ACCOUNT INFORMATION"

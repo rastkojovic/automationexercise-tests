@@ -6,9 +6,12 @@ def test_remove_from_cart(driver, home_page):
     Test Case 17: Remove Products From Cart
     '''
 
-    home_page.add_to_cart(0)
     home_page.add_to_cart(1)
+    home_page.dialogue.continue_shopping()
     home_page.add_to_cart(2)
+    home_page.dialogue.continue_shopping()
+    home_page.add_to_cart(3)
+    home_page.dialogue.continue_shopping()
     home_page.nav.click_cart()
 
     assert test_data.CART_PAGE_PATH in driver.current_url, f"Expected URL: '{test_data.CART_PAGE_PATH}', actual URL: '{driver.current_url}'"

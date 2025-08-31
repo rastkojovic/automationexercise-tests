@@ -1,10 +1,12 @@
 from pages.cart_page import CartPage
 from pages.checkout_page import CheckoutPage
+from pages.login_page import LoginPage
+from pages.signup_page import SignupPage
 from flows.account_flow import AccountFlow
-import test_data
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+import test_data
 
 def test_download_invoice(driver, home_page):
     '''
@@ -12,20 +14,22 @@ def test_download_invoice(driver, home_page):
     '''
 
     home_page.add_to_cart(1)
+    home_page.dialogue.continue_shopping()
     home_page.add_to_cart(3)
+    home_page.dialogue.continue_shopping()
     home_page.add_to_cart(4)
+    home_page.dialogue.continue_shopping()
 
     home_page.nav.click_cart()
 
     cart_page = CartPage(driver)
     cart_page.click_checkout_button()
 
-    dialogue_locator = "//div[contains(@class, 'modal-dialog')]"
-    link_locator = "//div[contains(@class, 'modal-dialog')]//a[@href='/login']"
+    link_locator = "//div[@class='modal-content']//a[contains(@href, 'login')]"
     wait = WebDriverWait(driver, 10)
     wait.until(
         EC.all_of(
-            EC.visibility_of_element_located((By.XPATH, dialogue_locator))),
+            EC.visibility_of_element_located((By.XPATH, link_locator))),
             EC.element_to_be_clickable((By.XPATH, link_locator))
     )
     register_login_link = driver.find_element(By.XPATH, link_locator)
@@ -33,7 +37,9 @@ def test_download_invoice(driver, home_page):
 
     # Create account [Example using AccountFlow]
     account_flow = AccountFlow(driver)
-    account_flow.create()
+    login_page = LoginPage(driver)
+    signup_page = SignupPage(driver)
+    account_flow.create(login_page, signup_page)
 
     loggedin_msg = home_page.nav.get_loggedin_msg()
     assert test_data.LOGGED_IN_MSG in loggedin_msg, f"Expected message: '{test_data.LOGGED_IN_MSG}', actual message: '{loggedin_msg}'"
@@ -57,4 +63,4 @@ def test_download_invoice(driver, home_page):
     assert test_data.COUNTRY == address_details["country"]
     assert test_data.PHONE_NUM == address_details["phone_num"]
 
-    account_flow.delete()
+    account_flow.delete(home_page)

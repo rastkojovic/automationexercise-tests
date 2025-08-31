@@ -19,11 +19,14 @@ def test_verify_details_checkout_page(driver, home_page):
     account_flow.create(login_page, signup_page)
 
     logged_in_msg = home_page.nav.get_loggedin_msg()
-    assert logged_in_msg in test_data.LOGGED_IN_MSG, f"Expected message: '{test_data.LOGGED_IN_MSG}', actual message: '{logged_in_msg}'"
+    assert test_data.LOGGED_IN_MSG in logged_in_msg, f"Expected message: '{test_data.LOGGED_IN_MSG}', actual message: '{logged_in_msg}'"
 
     home_page.add_to_cart(2)
+    home_page.dialogue.continue_shopping()
     home_page.add_to_cart(5)
+    home_page.dialogue.continue_shopping()
     home_page.add_to_cart(7)
+    home_page.dialogue.continue_shopping()
 
     home_page.nav.click_cart()
 

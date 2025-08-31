@@ -29,7 +29,7 @@ class CartPage(BasePage):
         item_elements = self.driver.find_elements(By.CSS_SELECTOR, "tbody tr")
         for item in item_elements:
             item_name = item.find_element(By.CSS_SELECTOR, ".cart_description a").text
-            item_price = float(item.find_element(By.CSS_SELECTOR, ".cart_price p").text.split(" ")[1])
+            item_price = item.find_element(By.CSS_SELECTOR, ".cart_price p").text
             item_quantity = int(item.find_element(By.CSS_SELECTOR, ".cart_quantity button").text)
             cart_item = CartItem(item_name, item_price, item_quantity)
             cart_items.append(cart_item)

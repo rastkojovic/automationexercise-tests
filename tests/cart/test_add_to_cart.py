@@ -18,19 +18,20 @@ def test_add_to_cart(driver, home_page):
     product_page.add_to_cart(1)
     product_page.dialogue.view_cart()
 
-    WebDriverWait(driver, 10).until(EC.url_contains(test_data.CART_PAGE_PATH))
+    wait = WebDriverWait(driver, 10)
+    wait.until(EC.url_contains(test_data.CART_PAGE_PATH))
 
     cart_page = CartPage(driver)
     cart_items = cart_page.get_cart_items()
 
-    # Product 1
-    assert cart_items[0].name == test_data.PRODUCT1_NAME, f"Expected product name: {test_data.PRODUCT1_NAME}, actual: {cart_items[0].name}"
-    assert cart_items[0].price == test_data.PRODUCT1_PRICE, f"Expected product price: {test_data.PRODUCT1_PRICE}, actual: {cart_items[0].price}"
-    assert cart_items[0].quantity == "1", f"Expected product quantity: 1, actual: {cart_items[0].quantity}"
-    assert cart_items[0].total == test_data.PRODUCT1_PRICE, f"Expected product total: {test_data.PRODUCT1_PRICE}, actual: {cart_items[0].total}"
+    product1 = cart_items[0]
+    assert product1.name == test_data.PRODUCT1_NAME, f"Expected product name: {test_data.PRODUCT1_NAME}, actual: {product1.name}"
+    assert product1.price == test_data.PRODUCT1_PRICE, f"Expected product price: {test_data.PRODUCT1_PRICE}, actual: {product1.price}"
+    assert product1.quantity == 1, f"Expected product quantity: 1, actual: {product1.quantity}"
+    assert product1.total == test_data.PRODUCT1_PRICE, f"Expected product total: {test_data.PRODUCT1_PRICE}, actual: {product1.total}"
 
-    # Product 2
-    assert cart_items[1].name == test_data.PRODUCT2_NAME, f"Expected product name: {test_data.PRODUCT2_NAME}, actual: {cart_items[1].name}"
-    assert cart_items[1].price == test_data.PRODUCT2_PRICE, f"Expected product price: {test_data.PRODUCT2_PRICE}, actual: {cart_items[1].price}"
-    assert cart_items[1].quantity == "1", f"Expected product quantity: 1, actual: {cart_items[1].quantity}"
-    assert cart_items[1].total == test_data.PRODUCT2_PRICE, f"Expected product total: {test_data.PRODUCT2_PRICE}, actual: {cart_items[1].total}"
+    product2 = cart_items[1]
+    assert product2.name == test_data.PRODUCT2_NAME, f"Expected product name: {test_data.PRODUCT2_NAME}, actual: {product2.name}"
+    assert product2.price == test_data.PRODUCT2_PRICE, f"Expected product price: {test_data.PRODUCT2_PRICE}, actual: {product2.price}"
+    assert product2.quantity == 1, f"Expected product quantity: 1, actual: {product2.quantity}"
+    assert product2.total == test_data.PRODUCT2_PRICE, f"Expected product total: {test_data.PRODUCT2_PRICE}, actual: {product2.total}"

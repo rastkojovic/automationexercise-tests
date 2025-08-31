@@ -3,6 +3,7 @@ from components.dialogue import Dialogue
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver import ActionChains
 import test_data
 import re
 
@@ -34,10 +35,6 @@ class HomePage(BasePage):
     def get_login_form_title(self):
         login_form_title = self.driver.find_element(By.CSS_SELECTOR, "#form .login-form h2").text
         return login_form_title
-    
-    def logout(self):
-        logout_link = self.driver.find_element(By.CSS_SELECTOR, ".navbar-nav a[href='/logout']")
-        logout_link.click()
 
     def enter_subscription_email(self, email):
         email_field = self.driver.find_element(By.CSS_SELECTOR, ".searchform input[type='email']")
@@ -54,16 +51,20 @@ class HomePage(BasePage):
         product_link.click()
 
     def add_to_cart(self, item_index):
-        item_list = self.driver.find_elements(By.CSS_SELECTOR, ".single-products")
-        item_list[item_index].find_element(By.CSS_SELECTOR, "a.add-to-cart").click()
-        continue_shopping_btn = self.driver.find_element(By.CSS_SELECTOR, ".modal-dialog .modal-footer button")
-        continue_shopping_btn.click()
+        element_container = self.driver.find_element(By.XPATH, f"(//div[@class='single-products'])[{item_index}]")
+        ActionChains(self.driver).move_to_element(element_container).perform()
+        link_locator = f"(//div[@class='overlay-content'])[{item_index}]//a[contains(@class, 'add-to-cart')]"
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(EC.all_of(
+            EC.visibility_of_element_located((By.XPATH, link_locator))
+        ))
+        wait.until(EC.element_to_be_clickable((By.XPATH, link_locator))).click()
 
     def get_item_details(self, product_index):
         product_info = self.driver.find_elements(By.CSS_SELECTOR, ".productinfo")[product_index]
         return {
             "name": product_info.find_element(By.CSS_SELECTOR, "p").text,
-            "price": float(product_info.find_element(By.CSS_SELECTOR, "h2").text.split(" ")[1])
+            "price": product_info.find_element(By.CSS_SELECTOR, "h2").text
         }
     
     def get_category_names(self):

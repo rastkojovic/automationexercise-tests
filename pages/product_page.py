@@ -24,6 +24,9 @@ class ProductPage(BasePage):
     def get_search_title(self):
         return self.driver.find_element(By.CSS_SELECTOR, ".features_items h2.title").text
     
+    def get_all_view_product_links(self):
+        return self.driver.find_elements(By.CSS_SELECTOR, "a[href*='product_details']")
+    
     def get_product_names(self):
         product_elements = self.driver.find_elements(By.CSS_SELECTOR, ".features_items .productinfo p")
         return [self.normalize_text(name.text) for name in product_elements]
@@ -40,13 +43,18 @@ class ProductPage(BasePage):
         else:
             return True
         
-    
     def check_search_results(self, product_name, product_names):
+        non_matching_items = []
         for name in product_names:
-            print(name)
-            if product_name not in name.lower():
-                return False
-        return True
+            clean_name_str = "".join([char.lower() for char in name if char not in ("\xa0", " ", "-", "_")])
+            if product_name not in clean_name_str:
+                non_matching_items.append(name.lower())
+
+        if not non_matching_items:
+            return True
+        else:
+            return non_matching_items
+        
     
     def normalize_text(self, text):
         return " ".join(text.replace("\xa0", " ").split())
@@ -55,16 +63,6 @@ class ProductPage(BasePage):
         add_to_cart_btn_xpath = f"(//div[@class='single-products'])[{product_index + 1}]//div[contains(@class,'productinfo')]/a[contains(@class,'add-to-cart')]"
         add_to_cart_button = self.driver.find_element(By.XPATH, add_to_cart_btn_xpath)
         add_to_cart_button.click()
-
-    # def dialogue_continue_shopping(self):
-    #     modal_content = self.driver.find_element(By.CSS_SELECTOR, ".modal-content")
-    #     continue_shopping_button = modal_content.find_element(By.CSS_SELECTOR, ".modal-footer button")
-    #     continue_shopping_button.click()
-
-    # def dialogue_view_cart(self):
-    #     modal_content = self.driver.find_element(By.CSS_SELECTOR, ".modal-content")
-    #     view_cart_link = modal_content.find_element(By.LINK_TEXT, "View Cart")
-    #     view_cart_link.click()
 
     def get_brand_names(self):
         brand_name_elements = self.driver.find_elements(By.CSS_SELECTOR, ".brands-name a")

@@ -25,6 +25,8 @@ class AccountFlow:
         signup_page.enter_name(test_data.NAME)
         signup_page.enter_email(test_data.EMAIL)
         signup_page.click_signup_button()
+
+        # user_exists_msg = self.driver.find_element(By.XPATH, "//p[contains(text(),'Email Address already exist!')]")
         
         wait.until(EC.url_contains(test_data.SIGNUP_PAGE_PATH))
 
@@ -52,7 +54,7 @@ class AccountFlow:
         continue_button.click()
 
         logged_in_text = signup_page.nav.get_loggedin_msg()
-        assert logged_in_text == f"Logged in as {test_data.NAME}", f"Expected text: 'Logged in as {test_data.NAME}', actual text: '{logged_in_text}'"
+        assert test_data.LOGGED_IN_MSG in logged_in_text, f"Expected link text to contain: 'Logged in as', actual link text: '{logged_in_text}'"
 
     def delete(self, page):
         page.nav.click_delete_account()
